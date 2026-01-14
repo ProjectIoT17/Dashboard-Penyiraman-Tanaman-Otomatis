@@ -49,6 +49,7 @@ input {
   width: 80px;
   font-size: 16px;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .btn {
@@ -62,7 +63,7 @@ input {
   cursor: pointer;
 }
 
-.on { background: green; }
-.off { background: red; }
+.on { background: #27ae60; }
+.off { background: #c0392b; }
 .mode { background: #2980b9; }
-.set { background: orange; }
+.set { background: #f39c12; }
