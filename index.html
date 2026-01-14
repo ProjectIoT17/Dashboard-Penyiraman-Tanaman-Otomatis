@@ -5,10 +5,7 @@
   <title>Smart Irrigation MQTT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- MQTT.js versi STABIL -->
   <script src="https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js"></script>
 </head>
 <body>
@@ -26,7 +23,7 @@
 </div>
 
 <div class="card">
-  <h2>Monitoring Daya</h2>
+  <h2>Monitoring Listrik</h2>
   <p>Tegangan: <b><span id="volt">--</span> V</b></p>
   <p>Arus: <b><span id="current">--</span> mA</b></p>
   <p>Daya: <b><span id="power">--</span> W</b></p>
@@ -48,7 +45,6 @@
   <button class="btn off" onclick="pumpOff()">Pompa OFF</button>
 </div>
 
-<!-- JS HARUS DI AKHIR -->
 <script src="script.js"></script>
 </body>
 </html>
