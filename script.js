@@ -3,7 +3,7 @@ window.addEventListener("load", () => {
   const mqttStatus = document.getElementById("mqttStatus");
 
   const client = mqtt.connect(
-    "wss://446ae662e1794c52a764bff380d64cfe.s1.eu.hivemq.cloud:8884",
+    "wss://446ae662e1794c52a764bff380d64cfe.s1.eu.hivemq.cloud:8884/mqtt",
     {
       username: "ESP32",
       password: "Project18116*",
@@ -46,7 +46,7 @@ window.addEventListener("load", () => {
     if (topic === "irrigation/threshold") threshold.value = data;
   });
 
-  // ===== CONTROL FUNCTIONS =====
+  // ===== CONTROL =====
   window.toggleMode = () => {
     client.publish("irrigation/cmd/mode", "TOGGLE");
   };
@@ -60,6 +60,7 @@ window.addEventListener("load", () => {
   };
 
   window.setThreshold = () => {
-    client.publish("irrigation/cmd/threshold", threshold.value);
+    const val = document.getElementById("threshold").value;
+    client.publish("irrigation/cmd/threshold", val);
   };
 });
