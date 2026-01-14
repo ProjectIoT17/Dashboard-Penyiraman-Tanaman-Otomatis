@@ -1,13 +1,6 @@
 window.addEventListener("load", () => {
 
   const mqttStatus = document.getElementById("mqttStatus");
-  const soil = document.getElementById("soil");
-  const volt = document.getElementById("volt");
-  const current = document.getElementById("current");
-  const power = document.getElementById("power");
-  const mode = document.getElementById("mode");
-  const pump = document.getElementById("pump");
-  const threshold = document.getElementById("threshold");
 
   const client = mqtt.connect(
     "wss://446ae662e1794c52a764bff380d64cfe.s1.eu.hivemq.cloud:8884",
@@ -20,6 +13,7 @@ window.addEventListener("load", () => {
   );
 
   client.on("connect", () => {
+    console.log("WEB MQTT CONNECTED");
     mqttStatus.textContent = "CONNECTED";
     mqttStatus.className = "online";
     client.subscribe("irrigation/#");
@@ -35,8 +29,13 @@ window.addEventListener("load", () => {
     mqttStatus.className = "offline";
   });
 
+  client.on("error", err => {
+    console.error("MQTT ERROR:", err);
+  });
+
   client.on("message", (topic, message) => {
     const data = message.toString();
+    console.log(topic, data);
 
     if (topic === "irrigation/soil") soil.textContent = data;
     if (topic === "irrigation/voltage") volt.textContent = data;
@@ -47,7 +46,7 @@ window.addEventListener("load", () => {
     if (topic === "irrigation/threshold") threshold.value = data;
   });
 
-  // ===== CONTROL =====
+  // ===== CONTROL FUNCTIONS =====
   window.toggleMode = () => {
     client.publish("irrigation/cmd/mode", "TOGGLE");
   };
