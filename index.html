@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Smart Irrigation MQTT</title>
+  <title>🌱Dashboard Penyiraman Otomatis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<h1>🌱 Smart Irrigation Dashboard</h1>
+<h1>🌱Dashboard Penyiraman Otomatis</h1>
 
 <div class="status-bar">
   MQTT Status:
@@ -23,7 +23,7 @@
 </div>
 
 <div class="card">
-  <h2>Monitoring Listrik</h2>
+  <h2>Monitoring Daya</h2>
   <p>Tegangan: <b><span id="volt">--</span> V</b></p>
   <p>Arus: <b><span id="current">--</span> mA</b></p>
   <p>Daya: <b><span id="power">--</span> W</b></p>
@@ -31,8 +31,11 @@
 
 <div class="card">
   <h2>Set Point Kelembaban</h2>
-  <input type="number" id="threshold" min="0" max="100">
-  <button class="btn set" onclick="setThreshold()">Update</button>
+  <div class="row">
+    <input type="number" id="setLow" min="0" max="100" placeholder="LOW %">
+    <input type="number" id="setHigh" min="0" max="100" placeholder="HIGH %">
+  </div>
+  <button class="btn set" onclick="updateSetpoint()">Update</button>
 </div>
 
 <div class="card">
@@ -40,7 +43,8 @@
   <p>Mode: <b id="mode">--</b></p>
   <p>Pompa: <b id="pump">--</b></p>
 
-  <button class="btn mode" onclick="toggleMode()">Ganti Mode</button>
+  <button class="btn mode" onclick="setAuto()">AUTO</button>
+  <button class="btn mode" onclick="setManual()">MANUAL</button>
   <button class="btn on" onclick="pumpOn()">Pompa ON</button>
   <button class="btn off" onclick="pumpOff()">Pompa OFF</button>
 </div>
