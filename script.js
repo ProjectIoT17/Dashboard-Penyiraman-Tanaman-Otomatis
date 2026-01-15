@@ -7,21 +7,14 @@ window.addEventListener("load", () => {
     {
       username: "ESP32",
       password: "Project18116*",
-      reconnectPeriod: 3000,
-      clean: true
+      reconnectPeriod: 3000
     }
   );
 
   client.on("connect", () => {
-    console.log("WEB MQTT CONNECTED");
     mqttStatus.textContent = "CONNECTED";
     mqttStatus.className = "online";
     client.subscribe("irrigation/#");
-  });
-
-  client.on("offline", () => {
-    mqttStatus.textContent = "OFFLINE";
-    mqttStatus.className = "offline";
   });
 
   client.on("reconnect", () => {
@@ -29,26 +22,31 @@ window.addEventListener("load", () => {
     mqttStatus.className = "offline";
   });
 
-  client.on("error", err => {
-    console.error("MQTT ERROR:", err);
+  client.on("offline", () => {
+    mqttStatus.textContent = "OFFLINE";
+    mqttStatus.className = "offline";
   });
 
   client.on("message", (topic, message) => {
     const data = message.toString();
-    console.log(topic, data);
 
     if (topic === "irrigation/soil") soil.textContent = data;
     if (topic === "irrigation/voltage") volt.textContent = data;
     if (topic === "irrigation/current") current.textContent = data;
     if (topic === "irrigation/power") power.textContent = data;
-    if (topic === "irrigation/mode") mode.textContent = data === "1" ? "OTOMATIS" : "MANUAL";
-    if (topic === "irrigation/pump") pump.textContent = data === "1" ? "ON" : "OFF";
-    if (topic === "irrigation/threshold") threshold.value = data;
+    if (topic === "irrigation/mode") mode.textContent = data;
+    if (topic === "irrigation/pump") pump.textContent = data;
+    if (topic === "irrigation/setpoint_low") setLow.value = data;
+    if (topic === "irrigation/setpoint_high") setHigh.value = data;
   });
 
   // ===== CONTROL =====
-  window.toggleMode = () => {
-    client.publish("irrigation/cmd/mode", "TOGGLE");
+  window.setAuto = () => {
+    client.publish("irrigation/cmd/mode", "AUTO");
+  };
+
+  window.setManual = () => {
+    client.publish("irrigation/cmd/mode", "MANUAL");
   };
 
   window.pumpOn = () => {
@@ -59,8 +57,8 @@ window.addEventListener("load", () => {
     client.publish("irrigation/cmd/pump", "OFF");
   };
 
-  window.setThreshold = () => {
-    const val = document.getElementById("threshold").value;
-    client.publish("irrigation/cmd/threshold", val);
+  window.updateSetpoint = () => {
+    client.publish("irrigation/cmd/setpoint_low", setLow.value);
+    client.publish("irrigation/cmd/setpoint_high", setHigh.value);
   };
 });
